@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üdvözöljük!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 50px;
+            max-width: 1400px;
+            width: 95%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in;
+            margin: 40px auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .subtitle {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .features {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 40px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .feature {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .feature p {
+            font-size: 0.9em;
+            color: #888;
+            margin: 0;
+        }
+
+        .chart-section {
+            margin: 50px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .chart-title {
+            color: #667eea;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .chart-subtitle {
+            color: #888;
+            font-size: 1em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #chart {
+            width: 100%;
+            min-width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding: 20px 0;
+            max-width: 100%;
+        }
+
+        #chart svg {
+            min-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure chart wrapper doesn't constrain width */
+        #chart > div {
+            width: 100% !important;
+            min-width: 100%;
+        }
+
+        /* Style Vega-Lite chart elements to match webpage theme */
+        #chart .vega-actions {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 25px;
+                width: 100%;
+                margin: 20px auto;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+
+            .chart-title {
+                font-size: 1.4em;
+            }
+
+            .chart-section {
+                padding: 25px 15px;
+            }
+
+            #chart {
+                padding: 10px 0;
+            }
+
+            .features {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .feature {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>Üdvözöljük!</h1>
+            <p class="subtitle">Welcome</p>
+            <p>
+                Üdvözöljük weboldalunkon! Reméljük, hogy megtalálja, amit keres.
+                Szívesen segítünk bármilyen kérdésben.
+            </p>
+            <a href="#" class="button">Kezdés</a>
+        </div>
+        
+        <div class="chart-section">
+            <h2 class="chart-title">Weboldalak Látogatottsága</h2>
+            <p class="chart-subtitle">Júniusi látogatottsági adatok 2020–2025 között (milliárd fő)</p>
+            <div id="chart"></div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Gyors</h3>
+                <p>Gyors és hatékony</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h3>Modern</h3>
+                <p>Korszerű design</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h3>Egyszerű</h3>
+                <p>Könnyen használható</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "description": "Weboldalak júniusi látogatottsága (milliárd fő) 2020–2025",
+            "data": {
+                "values": [
+                    {"Weboldal":"Google.com","Év":2020,"Látogatás":77.6},
+                    {"Weboldal":"Youtube.com","Év":2020,"Látogatás":29.5},
+                    {"Weboldal":"Facebook.com","Év":2020,"Látogatás":27.4},
+                    {"Weboldal":"Wikipedia.org","Év":2020,"Látogatás":5.6},
+                    {"Weboldal":"Instagram.com","Év":2020,"Látogatás":3.8},
+
+                    {"Weboldal":"Google.com","Év":2021,"Látogatás":88.3},
+                    {"Weboldal":"Youtube.com","Év":2021,"Látogatás":33.6},
+                    {"Weboldal":"Facebook.com","Év":2021,"Látogatás":24.3},
+                    {"Weboldal":"Wikipedia.org","Év":2021,"Látogatás":5.7},
+                    {"Weboldal":"Instagram.com","Év":2021,"Látogatás":5.8},
+
+                    {"Weboldal":"Google.com","Év":2022,"Látogatás":88.4},
+                    {"Weboldal":"Youtube.com","Év":2022,"Látogatás":34.8},
+                    {"Weboldal":"Facebook.com","Év":2022,"Látogatás":19.7},
+                    {"Weboldal":"Wikipedia.org","Év":2022,"Látogatás":6.6},
+                    {"Weboldal":"Instagram.com","Év":2022,"Látogatás":4.5},
+
+                    {"Weboldal":"Google.com","Év":2023,"Látogatás":83.8},
+                    {"Weboldal":"Youtube.com","Év":2023,"Látogatás":31.4},
+                    {"Weboldal":"Facebook.com","Év":2023,"Látogatás":16.1},
+                    {"Weboldal":"Wikipedia.org","Év":2023,"Látogatás":4.3},
+                    {"Weboldal":"Instagram.com","Év":2023,"Látogatás":6.6},
+
+                    {"Weboldal":"Google.com","Év":2024,"Látogatás":89.2},
+                    {"Weboldal":"Youtube.com","Év":2024,"Látogatás":31},
+                    {"Weboldal":"Facebook.com","Év":2024,"Látogatás":15},
+                    {"Weboldal":"Wikipedia.org","Év":2024,"Látogatás":4},
+                    {"Weboldal":"Instagram.com","Év":2024,"Látogatás":7.4},
+
+                    {"Weboldal":"Google.com","Év":2025,"Látogatás":105.4},
+                    {"Weboldal":"Youtube.com","Év":2025,"Látogatás":40.5},
+                    {"Weboldal":"Facebook.com","Év":2025,"Látogatás":14.5},
+                    {"Weboldal":"Wikipedia.org","Év":2025,"Látogatás":5},
+                    {"Weboldal":"Instagram.com","Év":2025,"Látogatás":5.9}
+                ]
+            },
+            "width": 180,
+            "height": 450,
+            "spacing": 20,
+            "mark": {
+                "type": "bar",
+                "cornerRadius": 8,
+                "stroke": "#ffffff",
+                "strokeWidth": 1,
+                "color": "#667eea"
+            },
+            "encoding": {
+                "x": {
+                    "field": "Weboldal", 
+                    "type": "nominal", 
+                    "title": "Weboldal", 
+                    "axis": {
+                        "labelAngle": -45,
+                        "labelColor": "#666",
+                        "titleColor": "#667eea",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "600"
+                    }
+                },
+                "y": {
+                    "field": "Látogatás", 
+                    "type": "quantitative", 
+                    "title": "Látogatás (milliárd)",
+                    "axis": {
+                        "labelColor": "#666",
+                        "titleColor": "#667eea",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "600"
+                    }
+                },
+                "column": {
+                    "field": "Év", 
+                    "type": "ordinal", 
+                    "title": "Év",
+                    "header": {
+                        "titleColor": "#667eea",
+                        "titleFontSize": 16,
+                        "titleFontWeight": "600",
+                        "labelColor": "#764ba2"
+                    }
+                },
+                "tooltip": [
+                    {"field": "Weboldal", "title": "Weboldal"},
+                    {"field": "Év", "title": "Év"},
+                    {"field": "Látogatás", "title": "Látogatás (mrd)", "format": ".1f"}
+                ]
+            },
+            "config": {
+                "background": "transparent",
+                "view": {
+                    "stroke": "transparent"
+                },
+                "axis": {
+                    "domainColor": "#e0e0e0",
+                    "gridColor": "#f0f0f0",
+                    "tickColor": "#e0e0e0"
+                }
+            }
+        };
+        vegaEmbed("#chart", spec, {
+            "actions": false,
+            "renderer": "svg"
+        }).then(function(result) {
+            // Ensure all columns are visible
+            const chartElement = document.querySelector('#chart');
+            if (chartElement) {
+                const svg = chartElement.querySelector('svg');
+                if (svg) {
+                    // Calculate minimum width: 6 columns * 180px + spacing
+                    svg.style.minWidth = '1200px';
+                    svg.style.width = 'auto';
+                    svg.style.height = 'auto';
+                    svg.style.maxWidth = 'none';
+                }
+                // Remove any width constraints from wrapper
+                const wrapper = chartElement.querySelector('div');
+                if (wrapper) {
+                    wrapper.style.width = 'auto';
+                    wrapper.style.minWidth = '1200px';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+  
