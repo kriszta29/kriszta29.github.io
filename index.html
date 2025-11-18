@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Üdvözöljük!</title>
+    <title>Video Games Central</title>
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -16,21 +16,44 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: radial-gradient(circle at top, #1a1a1a 0%, #050505 55%, #010101 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::before {
+            background: repeating-linear-gradient(120deg, rgba(255, 0, 0, 0.02) 0, rgba(255, 0, 0, 0.02) 2px, transparent 2px, transparent 4px);
+            animation: scanFlicker 8s linear infinite;
+        }
+
+        body::after {
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.12), transparent 60%);
+            mix-blend-mode: screen;
+            animation: pulseBackground 5s ease-in-out infinite alternate;
         }
 
         .container {
-            background: white;
+            background: #1a1a1a;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2), 0 0 40px rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
             padding: 60px 50px;
             max-width: 1400px;
             width: 95%;
             text-align: center;
-            animation: fadeIn 0.8s ease-in;
+            animation: fadeIn 0.8s ease-in, containerPulse 6s ease-in-out infinite;
             margin: 40px auto;
         }
 
@@ -46,138 +69,270 @@
         }
 
         h1 {
-            color: #667eea;
+            color: #00ffff;
             font-size: 3em;
             margin-bottom: 20px;
             font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+            position: relative;
+            letter-spacing: 0.12em;
+        }
+
+        .title-glitch {
+            text-transform: uppercase;
+            animation: glitch 2.5s infinite;
+        }
+
+        .title-glitch::before,
+        .title-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            color: inherit;
+            opacity: 0.7;
+            clip-path: inset(0 0 0 0);
+        }
+
+        .title-glitch::before {
+            transform: translate(-2px, -2px);
+            color: #ff006e;
+            animation: glitchShift 1.5s infinite;
+        }
+
+        .title-glitch::after {
+            transform: translate(2px, 2px);
+            color: #00f7ff;
+            animation: glitchShift 1.3s reverse infinite;
         }
 
         p {
-            color: #666;
+            color: #cccccc;
             font-size: 1.2em;
             line-height: 1.8;
             margin-bottom: 30px;
         }
 
         .subtitle {
-            color: #764ba2;
+            color: #ff00ff;
             font-size: 1.5em;
             margin-bottom: 40px;
             font-weight: 300;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
         }
 
         .button {
             display: inline-block;
             padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            color: #0a0a0a;
             text-decoration: none;
             border-radius: 50px;
             font-size: 1.1em;
             font-weight: 600;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5), 0 0 30px rgba(255, 0, 255, 0.3);
         }
 
         .button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 30px rgba(0, 255, 255, 0.8), 0 0 50px rgba(255, 0, 255, 0.5);
         }
 
         .header-section {
             margin-bottom: 40px;
             padding-bottom: 30px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            position: relative;
         }
 
-        .features {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding-top: 40px;
-            border-top: 2px solid #f0f0f0;
+        .floating-icons {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .feature {
-            flex: 1;
-            min-width: 150px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+        .floating-icon {
+            position: absolute;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 14px rgba(0, 255, 255, 0.9));
         }
 
-        .feature:hover {
-            transform: translateY(-5px);
+        .floating-icon svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .feature-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .icon-lg {
+            width: 108px;
+            height: 108px;
         }
 
-        .feature h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+        .icon-sm {
+            width: 66px;
+            height: 66px;
         }
 
-        .feature p {
-            font-size: 0.9em;
-            color: #888;
-            margin: 0;
+        .icon-controller {
+            left: 2%;
+            top: 6%;
+            animation: floatController 6s ease-in-out infinite;
+        }
+
+        .icon-lightning {
+            right: 1.5%;
+            top: 45%;
+            animation: floatLightning 5s ease-in-out infinite;
+        }
+
+        .icon-crosshair {
+            right: 2%;
+            top: 8%;
+            animation: floatCrosshair 7s ease-in-out infinite;
+        }
+
+        .icon-anger-1 {
+            left: 1.5%;
+            top: 45%;
+            animation: angerPulse 2.2s ease-in-out infinite;
+        }
+
+        .icon-anger-2 {
+            right: 6%;
+            bottom: 3%;
+            animation: angerPulse 2.8s ease-in-out infinite reverse;
+        }
+
+        .icon-rage-text-left {
+            left: 2%;
+            bottom: 6%;
+            animation: angerPulse 2.4s ease-in-out infinite;
+        }
+
+        .icon-rage-burst-right {
+            right: 2%;
+            bottom: 10%;
+            animation: angerPulse 2.6s ease-in-out infinite;
         }
 
         .chart-section {
-            margin: 50px 0;
-            padding: 40px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
-            border: 1px solid rgba(102, 126, 234, 0.1);
+            margin: 30px 0 20px 0;
         }
 
         .chart-title {
-            color: #667eea;
-            font-size: 1.8em;
+            color: #00ffff;
+            font-size: 2em;
             font-weight: 600;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .chart-subtitle {
-            color: #888;
-            font-size: 1em;
             margin-bottom: 30px;
             text-align: center;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
         }
 
-        #chart {
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
             width: 100%;
-            min-width: 100%;
+            margin-left: -30px;
+        }
+
+        .chart-item {
+            background: #0f0f0f;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.2);
+            padding: 15px 10px 15px 20px;
+            min-height: 450px;
             display: flex;
+            align-items: center;
             justify-content: flex-start;
-            overflow-x: auto;
-            padding: 20px 0;
-            max-width: 100%;
+            animation: pulseGlow 4s ease-in-out infinite;
+            position: relative;
+            overflow: visible;
         }
 
-        #chart svg {
-            min-width: 100%;
-            height: auto;
-        }
-        
-        /* Ensure chart wrapper doesn't constrain width */
-        #chart > div {
-            width: 100% !important;
-            min-width: 100%;
+        .chart-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 0, 0, 0.1), transparent, rgba(0, 255, 255, 0.1));
+            mix-blend-mode: screen;
+            opacity: 0.6;
+            pointer-events: none;
         }
 
-        /* Style Vega-Lite chart elements to match webpage theme */
-        #chart .vega-actions {
-            display: none;
+        .chart-item > div {
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+        }
+
+        @keyframes floatController {
+            0% { transform: translate(0, 0) rotate(-6deg); opacity: 0.7; }
+            50% { transform: translate(15px, -10px) rotate(4deg); opacity: 1; }
+            100% { transform: translate(0, 0) rotate(-6deg); opacity: 0.7; }
+        }
+
+        @keyframes floatLightning {
+            0% { transform: translate(0, 0) rotate(10deg); opacity: 0.85; }
+            50% { transform: translate(-12px, -14px) rotate(-10deg) scale(1.05); opacity: 1; }
+            100% { transform: translate(0, 0) rotate(10deg); opacity: 0.85; }
+        }
+
+        @keyframes floatCrosshair {
+            0% { transform: translate(-50%, 0) scale(0.9); opacity: 0.6; }
+            50% { transform: translate(-50%, 10px) scale(1.05); opacity: 1; }
+            100% { transform: translate(-50%, 0) scale(0.9); opacity: 0.6; }
+        }
+
+        @keyframes angerPulse {
+            0% { transform: translate(0, 0) scale(0.9) rotate(0deg); opacity: 0.7; }
+            20% { transform: translate(0, -2px) scale(1.05) rotate(-4deg); opacity: 1; }
+            40% { transform: translate(0, 2px) scale(1.02) rotate(4deg); opacity: 0.95; }
+            60% { transform: translate(0, -1px) scale(1.08) rotate(-3deg); opacity: 1; }
+            100% { transform: translate(0, 0) scale(0.9) rotate(0deg); opacity: 0.7; }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+            30% { text-shadow: 0 0 25px rgba(255, 0, 128, 0.8); }
+            60% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+            80% { text-shadow: 0 0 35px rgba(255, 0, 0, 0.8); }
+            100% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+        }
+
+        @keyframes glitchShift {
+            0% { clip-path: inset(0 0 90% 0); }
+            20% { clip-path: inset(10% 0 60% 0); }
+            40% { clip-path: inset(40% 0 20% 0); }
+            60% { clip-path: inset(70% 0 10% 0); }
+            80% { clip-path: inset(30% 0 50% 0); }
+            100% { clip-path: inset(0 0 95% 0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 8px 30px rgba(255, 0, 0, 0.2); }
+            50% { box-shadow: 0 8px 50px rgba(0, 255, 255, 0.35); }
+            100% { box-shadow: 0 8px 30px rgba(255, 0, 0, 0.2); }
+        }
+
+        @keyframes containerPulse {
+            0% { border-color: rgba(0, 255, 255, 0.3); }
+            50% { border-color: rgba(255, 0, 0, 0.6); }
+            100% { border-color: rgba(0, 255, 255, 0.3); }
+        }
+
+        @keyframes scanFlicker {
+            0% { opacity: 0.02; transform: translateY(0); }
+            50% { opacity: 0.08; transform: translateY(-10px); }
+            100% { opacity: 0.02; transform: translateY(0); }
+        }
+
+        @keyframes pulseBackground {
+            0% { opacity: 0.15; filter: blur(40px); }
+            100% { opacity: 0.35; filter: blur(60px); }
         }
 
         @media (max-width: 768px) {
@@ -199,192 +354,544 @@
                 font-size: 1.4em;
             }
 
-            .chart-section {
-                padding: 25px 15px;
+            .chart-grid {
+                grid-template-columns: 1fr;
             }
 
-            #chart {
-                padding: 10px 0;
-            }
-
-            .features {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .feature {
-                min-width: 100%;
+            .chart-item {
+                min-height: 350px;
+                padding: 12px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="floating-icons" aria-hidden="true">
+        <div class="floating-icon icon-controller icon-lg">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="22" width="48" height="22" rx="11" fill="#050508" stroke="#00ffff" stroke-width="2"/>
+                <circle cx="22" cy="32.5" r="4" fill="#ff0044"/>
+                <rect x="20.2" y="29.5" width="3.6" height="6" rx="1.4" fill="#00f7ff"/>
+                <rect x="19" y="31" width="6" height="3" rx="1.4" fill="#00f7ff"/>
+                <circle cx="38.5" cy="30.5" r="2.3" fill="#00f7ff"/>
+                <circle cx="45.5" cy="30.5" r="2.3" fill="#ff00ff"/>
+                <circle cx="42" cy="35.5" r="2.3" fill="#ffffff"/>
+            </svg>
+        </div>
+        <div class="floating-icon icon-lightning icon-sm">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 4L10 26h9l-3 18 14-24h-9z"
+                      fill="#ff0044"
+                      stroke="#ff0044"
+                      stroke-width="2"
+                      stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="floating-icon icon-crosshair icon-sm">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="10" fill="none" stroke="#00ffff" stroke-width="2"/>
+                <circle cx="24" cy="24" r="3" fill="#ff0044"/>
+                <line x1="24" y1="6" x2="24" y2="14" stroke="#00ffff" stroke-width="2"/>
+                <line x1="24" y1="34" x2="24" y2="42" stroke="#00ffff" stroke-width="2"/>
+                <line x1="6" y1="24" x2="14" y2="24" stroke="#00ffff" stroke-width="2"/>
+                <line x1="34" y1="24" x2="42" y2="24" stroke="#00ffff" stroke-width="2"/>
+            </svg>
+        </div>
+        <div class="floating-icon icon-anger-1 icon-lg">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="12" fill="#ff0044" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M17 19l4-2M31 19l-4-2" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M18 29c1.8-2 4-3 6-3s4.2 1 6 3" fill="none" stroke="#050508" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="floating-icon icon-anger-2 icon-sm">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 28c4-6 8-9 14-10" fill="none" stroke="#ff0044" stroke-width="2" stroke-linecap="round"/>
+                <path d="M38 20c-4 6-8 9-14 10" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M22 16l2-6 2 6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="18" cy="30" r="2.2" fill="#ff0044"/>
+                <circle cx="30" cy="26" r="2.2" fill="#00f7ff"/>
+            </svg>
+        </div>
+        <div class="floating-icon icon-rage-text-left icon-lg">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="14" width="52" height="36" rx="10" fill="#050508" stroke="#ff0044" stroke-width="2"/>
+                <text x="32" y="38" text-anchor="middle" font-family="Segoe UI, system-ui, -apple-system"
+                      font-size="16" fill="#ff00ff" letter-spacing="3">PLAY</text>
+            </svg>
+        </div>
+        <div class="floating-icon icon-rage-burst-right icon-lg">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="32,4 38,16 52,14 44,26 54,34 40,36 42,50 32,42 22,50 24,36 10,34 20,26 12,14 26,16"
+                         fill="#ff0044" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round"/>
+                <rect x="29" y="20" width="6" height="18" rx="2" fill="#00f7ff"/>
+                <circle cx="32" cy="42" r="3" fill="#ffffff"/>
+            </svg>
+        </div>
+    </div>
+    
     <div class="container">
         <div class="header-section">
-            <h1>Üdvözöljük!</h1>
+            <h1 class="title-glitch" data-text="Video Games Central">Video Games Central</h1>
             <p class="subtitle">Welcome</p>
             <p>
-                Üdvözöljük weboldalunkon! Reméljük, hogy megtalálja, amit keres.
-                Szívesen segítünk bármilyen kérdésben.
+                Welcome to Video Games Central—your hub for gaming stats, trending titles, and everything gaming culture.
             </p>
-            <a href="#" class="button">Kezdés</a>
+            <a href="#" class="button">Get Started</a>
         </div>
         
         <div class="chart-section">
-            <h2 class="chart-title">Weboldalak Látogatottsága</h2>
-            <p class="chart-subtitle">Júniusi látogatottsági adatok 2020–2025 között (milliárd fő)</p>
-            <div id="chart"></div>
-        </div>
-        
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <h3>Gyors</h3>
-                <p>Gyors és hatékony</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🎨</div>
-                <h3>Modern</h3>
-                <p>Korszerű design</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">✨</div>
-                <h3>Egyszerű</h3>
-                <p>Könnyen használható</p>
+            <h2 class="chart-title">Game Statistics Dashboard</h2>
+            
+            <div class="chart-grid">
+                <div class="chart-item" id="chart1"></div>
+                <div class="chart-item" id="chart2"></div>
+                <div class="chart-item" id="chart3"></div>
+                <div class="chart-item" id="chart4"></div>
+                <div class="chart-item" id="chart5"></div>
+                <div class="chart-item" id="chart6"></div>
+                <div class="chart-item" id="chart7"></div>
             </div>
         </div>
     </div>
 
     <script>
-        const spec = {
+        const gameData = [
+            {"Game":"Roblox","Players":300,"Videos":7600,"Views":447,"AvgPlaytime":82,"Difficulty":3,"Rate":7.2},
+            {"Game":"PUBG Mobile","Players":250,"Videos":2700,"Views":66,"AvgPlaytime":50,"Difficulty":6,"Rate":7},
+            {"Game":"Minecraft","Players":230,"Videos":20700,"Views":1200,"AvgPlaytime":60,"Difficulty":4,"Rate":8.3},
+            {"Game":"Garena Free Fire","Players":220,"Videos":41200,"Views":381,"AvgPlaytime":45,"Difficulty":5,"Rate":5.5},
+            {"Game":"League of Legends","Players":220,"Videos":7200,"Views":124,"AvgPlaytime":55,"Difficulty":7,"Rate":6.6},
+            {"Game":"Fortnite","Players":200,"Videos":17800,"Views":311,"AvgPlaytime":50,"Difficulty":6,"Rate":7},
+            {"Game":"Call of Duty Warzone","Players":150,"Videos":489,"Views":11.1,"AvgPlaytime":40,"Difficulty":7,"Rate":6.8},
+            {"Game":"Genshin Impact","Players":150,"Videos":5900,"Views":38.5,"AvgPlaytime":35,"Difficulty":5,"Rate":7},
+            {"Game":"Apex Legends","Players":120,"Videos":6900,"Views":29,"AvgPlaytime":30,"Difficulty":7,"Rate":7.1},
+            {"Game":"Counter Strike2","Players":100,"Videos":3300,"Views":55.5,"AvgPlaytime":40,"Difficulty":8,"Rate":8},
+            {"Game":"Grand Theft Auto V","Players":90,"Videos":11900,"Views":368,"AvgPlaytime":60,"Difficulty":5,"Rate":8.5},
+            {"Game":"Valorant","Players":80,"Videos":6200,"Views":37.4,"AvgPlaytime":35,"Difficulty":8,"Rate":7.4},
+            {"Game":"Zelda: Tears of Kingdom","Players":40,"Videos":700,"Views":10.2,"AvgPlaytime":25,"Difficulty":6,"Rate":9},
+            {"Game":"Monster Hunter Wilds","Players":35,"Videos":200,"Views":2,"AvgPlaytime":20,"Difficulty":7,"Rate":7},
+            {"Game":"Marvel's Spider Man2","Players":30,"Videos":120,"Views":1.2,"AvgPlaytime":20,"Difficulty":5,"Rate":8.5}
+        ];
+
+        const commonConfig = {
+            background: "transparent",
+            view: {stroke: "transparent"},
+            axis: {
+                domainColor: "#ff00ff",
+                gridColor: "rgba(255,0,255,0.2)",
+                tickColor: "#ff00ff",
+                labelColor: "#ff00ff",
+                titleColor: "#ff00ff"
+            }
+        };
+
+        const spec1 = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Weboldalak júniusi látogatottsága (milliárd fő) 2020–2025",
-            "data": {
-                "values": [
-                    {"Weboldal":"Google.com","Év":2020,"Látogatás":77.6},
-                    {"Weboldal":"Youtube.com","Év":2020,"Látogatás":29.5},
-                    {"Weboldal":"Facebook.com","Év":2020,"Látogatás":27.4},
-                    {"Weboldal":"Wikipedia.org","Év":2020,"Látogatás":5.6},
-                    {"Weboldal":"Instagram.com","Év":2020,"Látogatás":3.8},
-
-                    {"Weboldal":"Google.com","Év":2021,"Látogatás":88.3},
-                    {"Weboldal":"Youtube.com","Év":2021,"Látogatás":33.6},
-                    {"Weboldal":"Facebook.com","Év":2021,"Látogatás":24.3},
-                    {"Weboldal":"Wikipedia.org","Év":2021,"Látogatás":5.7},
-                    {"Weboldal":"Instagram.com","Év":2021,"Látogatás":5.8},
-
-                    {"Weboldal":"Google.com","Év":2022,"Látogatás":88.4},
-                    {"Weboldal":"Youtube.com","Év":2022,"Látogatás":34.8},
-                    {"Weboldal":"Facebook.com","Év":2022,"Látogatás":19.7},
-                    {"Weboldal":"Wikipedia.org","Év":2022,"Látogatás":6.6},
-                    {"Weboldal":"Instagram.com","Év":2022,"Látogatás":4.5},
-
-                    {"Weboldal":"Google.com","Év":2023,"Látogatás":83.8},
-                    {"Weboldal":"Youtube.com","Év":2023,"Látogatás":31.4},
-                    {"Weboldal":"Facebook.com","Év":2023,"Látogatás":16.1},
-                    {"Weboldal":"Wikipedia.org","Év":2023,"Látogatás":4.3},
-                    {"Weboldal":"Instagram.com","Év":2023,"Látogatás":6.6},
-
-                    {"Weboldal":"Google.com","Év":2024,"Látogatás":89.2},
-                    {"Weboldal":"Youtube.com","Év":2024,"Látogatás":31},
-                    {"Weboldal":"Facebook.com","Év":2024,"Látogatás":15},
-                    {"Weboldal":"Wikipedia.org","Év":2024,"Látogatás":4},
-                    {"Weboldal":"Instagram.com","Év":2024,"Látogatás":7.4},
-
-                    {"Weboldal":"Google.com","Év":2025,"Látogatás":105.4},
-                    {"Weboldal":"Youtube.com","Év":2025,"Látogatás":40.5},
-                    {"Weboldal":"Facebook.com","Év":2025,"Látogatás":14.5},
-                    {"Weboldal":"Wikipedia.org","Év":2025,"Látogatás":5},
-                    {"Weboldal":"Instagram.com","Év":2025,"Látogatás":5.9}
-                ]
-            },
-            "width": 180,
-            "height": 450,
-            "spacing": 20,
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
             "mark": {
                 "type": "bar",
-                "cornerRadius": 8,
-                "stroke": "#ffffff",
-                "strokeWidth": 1,
-                "color": "#667eea"
+                "color": "#ff00ff",
+                "opacity": 0.85,
+                "stroke": "#ff00ff",
+                "strokeWidth": 2
             },
             "encoding": {
                 "x": {
-                    "field": "Weboldal", 
-                    "type": "nominal", 
-                    "title": "Weboldal", 
+                    "field": "Game",
+                    "type": "nominal",
                     "axis": {
-                        "labelAngle": -45,
-                        "labelColor": "#666",
-                        "titleColor": "#667eea",
+                        "title": "Game",
+                        "titleColor": "#ff00ff",
                         "titleFontSize": 14,
-                        "titleFontWeight": "600"
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 9,
+                        "labelAngle": -45,
+                        "labelAlign": "right"
                     }
                 },
                 "y": {
-                    "field": "Látogatás", 
-                    "type": "quantitative", 
-                    "title": "Látogatás (milliárd)",
+                    "field": "Players",
+                    "type": "quantitative",
                     "axis": {
-                        "labelColor": "#666",
-                        "titleColor": "#667eea",
+                        "title": "Players (Million)",
+                        "titleColor": "#ff00ff",
                         "titleFontSize": 14,
-                        "titleFontWeight": "600"
-                    }
-                },
-                "column": {
-                    "field": "Év", 
-                    "type": "ordinal", 
-                    "title": "Év",
-                    "header": {
-                        "titleColor": "#667eea",
-                        "titleFontSize": 16,
-                        "titleFontWeight": "600",
-                        "labelColor": "#764ba2"
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 11
                     }
                 },
                 "tooltip": [
-                    {"field": "Weboldal", "title": "Weboldal"},
-                    {"field": "Év", "title": "Év"},
-                    {"field": "Látogatás", "title": "Látogatás (mrd)", "format": ".1f"}
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "Players", "type": "quantitative", "title": "Players (M)"}
                 ]
             },
-            "config": {
-                "background": "transparent",
-                "view": {
-                    "stroke": "transparent"
-                },
-                "axis": {
-                    "domainColor": "#e0e0e0",
-                    "gridColor": "#f0f0f0",
-                    "tickColor": "#e0e0e0"
-                }
-            }
+            "title": {
+                "text": "Players",
+                "color": "#ff00ff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
         };
-        vegaEmbed("#chart", spec, {
-            "actions": false,
-            "renderer": "svg"
-        }).then(function(result) {
-            // Ensure all columns are visible
-            const chartElement = document.querySelector('#chart');
-            if (chartElement) {
-                const svg = chartElement.querySelector('svg');
-                if (svg) {
-                    // Calculate minimum width: 6 columns * 180px + spacing
-                    svg.style.minWidth = '1200px';
-                    svg.style.width = 'auto';
-                    svg.style.height = 'auto';
-                    svg.style.maxWidth = 'none';
-                }
-                // Remove any width constraints from wrapper
-                const wrapper = chartElement.querySelector('div');
-                if (wrapper) {
-                    wrapper.style.width = 'auto';
-                    wrapper.style.minWidth = '1200px';
-                }
-            }
-        });
+
+        const spec2 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "bar",
+                "color": "#00ffff",
+                "opacity": 0.85,
+                "stroke": "#00ffff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Game",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "Game",
+                        "labelAngle": -45,
+                        "labelAlign": "right",
+                        "labelFontSize": 9,
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "titleColor": "#00ffff",
+                        "labelColor": "#00ffff"
+                    }
+                },
+                "y": {
+                    "field": "Videos",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Videos (K)",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 11
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "Videos", "type": "quantitative", "title": "Videos (K)"}
+                ]
+            },
+            "title": {
+                "text": "Videos",
+                "color": "#00ffff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        const spec3 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "bar",
+                "color": "#ff00ff",
+                "opacity": 0.85,
+                "stroke": "#ff00ff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Game",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "Game",
+                        "titleColor": "#ff00ff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 9,
+                        "labelAngle": -45,
+                        "labelAlign": "right"
+                    }
+                },
+                "y": {
+                    "field": "Views",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Views (B)",
+                        "titleColor": "#ff00ff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 11
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "Views", "type": "quantitative", "title": "Views (B)"}
+                ]
+            },
+            "title": {
+                "text": "Views",
+                "color": "#ff00ff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        const spec4 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "bar",
+                "color": "#00ffff",
+                "opacity": 0.85,
+                "stroke": "#00ffff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Game",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "Game",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 9,
+                        "labelAngle": -45,
+                        "labelAlign": "right"
+                    }
+                },
+                "y": {
+                    "field": "AvgPlaytime",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Avg Playtime (hrs)",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 11
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "AvgPlaytime", "type": "quantitative", "title": "Avg Playtime (hrs)"}
+                ]
+            },
+            "title": {
+                "text": "Playtime",
+                "color": "#00ffff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        const spec5 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "bar",
+                "color": "#ff00ff",
+                "opacity": 0.85,
+                "stroke": "#ff00ff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Game",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "Game",
+                        "titleColor": "#ff00ff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 9,
+                        "labelAngle": -45,
+                        "labelAlign": "right"
+                    }
+                },
+                "y": {
+                    "field": "Difficulty",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Difficulty (1-10)",
+                        "titleColor": "#ff00ff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 11
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "Difficulty", "type": "quantitative", "title": "Difficulty"}
+                ]
+            },
+            "title": {
+                "text": "Difficulty",
+                "color": "#ff00ff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        const spec6 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "bar",
+                "color": "#00ffff",
+                "opacity": 0.85,
+                "stroke": "#00ffff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Game",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "Game",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 9,
+                        "labelAngle": -45,
+                        "labelAlign": "right"
+                    }
+                },
+                "y": {
+                    "field": "Rate",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Rating (1-10)",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 11
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal"},
+                    {"field": "Rate", "type": "quantitative", "title": "Rating"}
+                ]
+            },
+            "title": {
+                "text": "Rating",
+                "color": "#00ffff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        const spec7 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"values": gameData},
+            "width": "container",
+            "height": "container",
+            "mark": {
+                "type": "circle",
+                "opacity": 0.8,
+                "stroke": "#ff00ff",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "Players",
+                    "type": "quantitative",
+                    "scale": {"domain": [0, 320]},
+                    "axis": {
+                        "title": "Players (Million)",
+                        "titleColor": "#ff00ff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#ff00ff",
+                        "labelFontSize": 11
+                    }
+                },
+                "y": {
+                    "field": "Rate",
+                    "type": "quantitative",
+                    "scale": {"domain": [5, 9.5]},
+                    "axis": {
+                        "title": "Rating",
+                        "titleColor": "#00ffff",
+                        "titleFontSize": 14,
+                        "titleFontWeight": "bold",
+                        "labelColor": "#00ffff",
+                        "labelFontSize": 11
+                    }
+                },
+                "size": {
+                    "field": "Views",
+                    "type": "quantitative",
+                    "scale": {
+                        "range": [100, 1200]
+                    },
+                    "legend": {
+                        "title": "Views (B)",
+                        "titleColor": "#ffffff",
+                        "labelColor": "#ffffff",
+                        "orient": "right"
+                    }
+                },
+                "color": {
+                    "field": "Difficulty",
+                    "type": "quantitative",
+                    "scale": {
+                        "scheme": "redpurple"
+                    },
+                    "legend": {
+                        "title": "Difficulty",
+                        "titleColor": "#ffffff",
+                        "labelColor": "#ffffff",
+                        "orient": "right"
+                    }
+                },
+                "tooltip": [
+                    {"field": "Game", "type": "nominal", "title": "Game"},
+                    {"field": "Players", "type": "quantitative", "title": "Players (M)"},
+                    {"field": "Rate", "type": "quantitative", "title": "Rating"},
+                    {"field": "Views", "type": "quantitative", "title": "Views (B)"},
+                    {"field": "Difficulty", "type": "quantitative", "title": "Difficulty"}
+                ]
+            },
+            "title": {
+                "text": "Popularity vs Quality",
+                "color": "#ff00ff",
+                "fontSize": 18,
+                "fontWeight": "bold"
+            },
+            "config": commonConfig
+        };
+
+        vegaEmbed("#chart1", spec1, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart2", spec2, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart3", spec3, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart4", spec4, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart5", spec5, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart6", spec6, { actions: false, renderer: "svg" });
+        vegaEmbed("#chart7", spec7, { actions: false, renderer: "svg" });
     </script>
 </body>
 </html>
-  
