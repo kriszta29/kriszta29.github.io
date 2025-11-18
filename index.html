@@ -450,7 +450,7 @@
                 <div class="chart-item" id="chart4"></div>
                 <div class="chart-item" id="chart5"></div>
                 <div class="chart-item" id="chart6"></div>
-                <div class="chart-item" id="chart7"></div>
+                
             </div>
         </div>
     </div>
@@ -804,94 +804,14 @@
             "config": commonConfig
         };
 
-        const spec7 = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "data": {"values": gameData},
-            "width": "container",
-            "height": "container",
-            "mark": {
-                "type": "circle",
-                "opacity": 0.8,
-                "stroke": "#ff00ff",
-                "strokeWidth": 2
-            },
-            "encoding": {
-                "x": {
-                    "field": "Players",
-                    "type": "quantitative",
-                    "scale": {"domain": [0, 320]},
-                    "axis": {
-                        "title": "Players (Million)",
-                        "titleColor": "#ff00ff",
-                        "titleFontSize": 14,
-                        "titleFontWeight": "bold",
-                        "labelColor": "#ff00ff",
-                        "labelFontSize": 11
-                    }
-                },
-                "y": {
-                    "field": "Rate",
-                    "type": "quantitative",
-                    "scale": {"domain": [5, 9.5]},
-                    "axis": {
-                        "title": "Rating",
-                        "titleColor": "#00ffff",
-                        "titleFontSize": 14,
-                        "titleFontWeight": "bold",
-                        "labelColor": "#00ffff",
-                        "labelFontSize": 11
-                    }
-                },
-                "size": {
-                    "field": "Views",
-                    "type": "quantitative",
-                    "scale": {
-                        "range": [100, 1200]
-                    },
-                    "legend": {
-                        "title": "Views (B)",
-                        "titleColor": "#ffffff",
-                        "labelColor": "#ffffff",
-                        "orient": "right"
-                    }
-                },
-                "color": {
-                    "field": "Difficulty",
-                    "type": "quantitative",
-                    "scale": {
-                        "scheme": "redpurple"
-                    },
-                    "legend": {
-                        "title": "Difficulty",
-                        "titleColor": "#ffffff",
-                        "labelColor": "#ffffff",
-                        "orient": "right"
-                    }
-                },
-                "tooltip": [
-                    {"field": "Game", "type": "nominal", "title": "Game"},
-                    {"field": "Players", "type": "quantitative", "title": "Players (M)"},
-                    {"field": "Rate", "type": "quantitative", "title": "Rating"},
-                    {"field": "Views", "type": "quantitative", "title": "Views (B)"},
-                    {"field": "Difficulty", "type": "quantitative", "title": "Difficulty"}
-                ]
-            },
-            "title": {
-                "text": "Popularity vs Quality",
-                "color": "#ff00ff",
-                "fontSize": 18,
-                "fontWeight": "bold"
-            },
-            "config": commonConfig
-        };
-
+        
         vegaEmbed("#chart1", spec1, { actions: false, renderer: "svg" });
         vegaEmbed("#chart2", spec2, { actions: false, renderer: "svg" });
         vegaEmbed("#chart3", spec3, { actions: false, renderer: "svg" });
         vegaEmbed("#chart4", spec4, { actions: false, renderer: "svg" });
         vegaEmbed("#chart5", spec5, { actions: false, renderer: "svg" });
         vegaEmbed("#chart6", spec6, { actions: false, renderer: "svg" });
-        vegaEmbed("#chart7", spec7, { actions: false, renderer: "svg" });
+        
     </script>
 </body>
 </html>
